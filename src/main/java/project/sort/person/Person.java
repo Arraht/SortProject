@@ -1,4 +1,4 @@
-package project.sort;
+package project.sort.person;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,23 +10,23 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Person {
-    private Long id;
     private String name;
-    private int priority;
+    private String password;
+    private String mail;
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return priority == person.priority && Objects.equals(id, person.id) && Objects.equals(name, person.name);
+        return Objects.equals(name, person.name) && Objects.equals(password, person.password) && Objects.equals(mail, person.mail);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, priority);
+        return Objects.hash(name, password, mail);
     }
 
     public String toString() {
-        return "id: " +  this.id + "; name: " + this.name + "; priority: " + this.priority;
+        return "name: " +  this.name + "; password: " + this.password + "; mail: " + this.mail;
     }
 }

@@ -1,17 +1,23 @@
 package project.sort.handler;
 
+import project.sort.person.PersonSorter;
+import project.sort.exceptoins.FileNotFoundException;
+import project.sort.exceptoins.InvalidException;
+import project.sort.sort.Sort;
+
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
-import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class UserHandler {
-    public static void run()  {
-        boolean isRunning = true;
-        Scanner sc = new Scanner(System.in);
+    private static boolean isRunning = true;
+    private static final Scanner sc = new Scanner(System.in);
+    private static final Sort person = new PersonSorter();
+
+    public static void run() {
         while (isRunning) {
             System.out.println("""
                     Это приложение поможет вам отсортировать данные.
@@ -23,26 +29,7 @@ public class UserHandler {
             String choice = sc.nextLine();
             switch (choice) {
                 case "1" -> {
-                    System.out.println("Пожалуйста, ведите путь к файлу");
-                    String input = sc.nextLine().trim().replace('\\', '/');
-                    Path path;
-                    try {
-                        path = Paths.get(input);
-                    } catch (InvalidPathException e) {
-                        System.out.println("Некорректный путь к файлу\n");
-                        continue;
-                    }
-                    String data;
-                    try {
-                        data = Files.readString(path);
-                    } catch (NoSuchFileException r) {
-                        System.out.println("Такого файла не существует.\n");
-                        continue;
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    System.out.println("Содержимое файла: " + data);
-                    System.out.println("Вызываем метод валидации данных");
+                    enterFile();
                 }
                 case "2" -> {
                     System.out.println("Введите данные для сортировки: ");
@@ -50,10 +37,7 @@ public class UserHandler {
                     System.out.println("Вызываем метод валидации данных");
                 }
                 case "3" -> {
-                    System.out.println("Введите желаемую длину массива: ");
-                    String data = sc.nextLine();
-                    System.out.println
-                            ("Вызываем метод генерации данных для массива длиной " + data + " ед.");
+                    checkEnterByUserForRandom();
                 }
                 case "4" -> {
                     System.out.println("Завершаем программу.");
@@ -62,6 +46,36 @@ public class UserHandler {
                 default -> System.out.println("Удостоверьтесь в правильности ввода.");
             }
             System.out.println();
+        }
+    }
+
+    private static String checkPath(String input) {
+        try {
+            Path path = Paths.get(input);
+            return Files.readString(path);
+        } catch (NoSuchFileException r) {
+            throw new FileNotFoundException("Такого файла не существует.");
+        } catch (IOException e) {
+            throw new InvalidException("Что-то не так");
+        }
+    }
+
+    private static void enterFile() {
+        System.out.println("Пожалуйста, ведите название файла");
+        String input = "src/main/java/project/sort/files/" +
+                sc.nextLine().trim().replace('\\', '/') + ".txt";
+        System.out.println("Содержимое файла: " + checkPath(input));
+        System.out.println("Вызываем метод валидации данных");
+    }
+
+    private static void checkEnterByUserForRandom() {
+        Integer count = person.createAndCountSize();
+        System.out.println("Введите желаемую длину массива от 1 до " + count);
+        String data = sc.nextLine();
+        try {
+            person.sortForCount(Integer.parseInt(data));
+        } catch (NumberFormatException e) {
+            throw new InvalidException("Не число");
         }
     }
 }
