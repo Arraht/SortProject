@@ -3,7 +3,7 @@ package project.sort;
 import java.util.ArrayList;
 
 public class Main {
-    public static void PersonDemo (String[] args) {
+    public static void main(String[] args) {
         ArrayList<Person> entities = new ArrayList<>();
         entities.add(new Person(1L, "Alice", 3));
         entities.add(new Person(2L, "Bob", 1));
