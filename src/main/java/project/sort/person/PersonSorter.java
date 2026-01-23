@@ -1,15 +1,16 @@
 package project.sort.person;
 
+import net.datafaker.Faker;
 import project.sort.sort.Sort;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PersonSorter implements Sort {
-    private static final ArrayList<Person> people = new ArrayList<>();
+    private static ArrayList<Person> people = new ArrayList<>();
 
     @Override
-    public void sortAl() {
+    public void sortAll() {
         people.sort(new PersonComparator());
         for (Person entity : people) {
             System.out.println(entity);
@@ -35,12 +36,19 @@ public class PersonSorter implements Sort {
     }
 
     @Override
-    public Integer createAndCountSize() {
-        people.add(new Person("John", "jonh!123", "john@gmail.com"));
-        people.add(new Person("Bob", "Boss!153", "Bob@gmail.com"));
-        people.add(new Person("Petr", "Shestr15", "Petr@gmail.com"));
-        people.add(new Person("Charlie", "Winner", "Charlie@gmail.com"));
-        people.add(new Person("Petr", "ShesLot", "Bob@gmail.com"));
-        return people.size();
+    public ArrayList<Person> createBySize(int size) {
+        if (!people.isEmpty()) {
+            people = new ArrayList<>();
+        }
+        Faker faker = new Faker(new Locale("en"));
+
+        for (int i = 0; i < size; i++) {
+            String name = faker.name().firstName();
+            String email = faker.internet().emailAddress();
+            String password = faker.internet().password(8, 12, true, true, false);
+
+            people.add(new Person(name, password, email));
+        }
+        return people;
     }
 }

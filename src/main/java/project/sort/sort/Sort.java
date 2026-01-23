@@ -1,9 +1,11 @@
 package project.sort.sort;
 
+import java.util.ArrayList;
+
 public interface Sort {
-    void sortAl();
+    void sortAll();
 
     void sortForCount(int count);
 
-    Integer createAndCountSize();
+    ArrayList<?> createBySize(int size);
 }
