@@ -37,7 +37,7 @@ public class UserHandler {
                     System.out.println("Вызываем метод валидации данных");
                 }
                 case "3" -> {
-                    checkEnterByUserForRandom();
+                    generateData();
                 }
                 case "4" -> {
                     System.out.println("Завершаем программу.");
@@ -68,14 +68,17 @@ public class UserHandler {
         System.out.println("Вызываем метод валидации данных");
     }
 
-    private static void checkEnterByUserForRandom() {
-        Integer count = person.createAndCountSize();
-        System.out.println("Введите желаемую длину массива от 1 до " + count);
-        String data = sc.nextLine();
+    private static void generateData() {
+        System.out.println("Введите желаемую длину массива.");
+        String input = sc.nextLine();
+        int size = 0;
+
         try {
-            person.sortForCount(Integer.parseInt(data));
+            size = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new InvalidException("Не число");
+            System.out.println("Необходимо ввести целое число!");
+            generateData();
         }
+        System.out.println(person.createBySize(size) + "\nДалее вызываем сортировку");
     }
 }
