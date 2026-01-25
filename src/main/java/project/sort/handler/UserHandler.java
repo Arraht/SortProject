@@ -1,5 +1,6 @@
 package project.sort.handler;
 
+import project.sort.person.Person;
 import project.sort.person.PersonSorter;
 import project.sort.exceptoins.FileNotFoundException;
 import project.sort.exceptoins.InvalidException;
@@ -10,12 +11,13 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserHandler {
     private static boolean isRunning = true;
     private static final Scanner sc = new Scanner(System.in);
-    private static final Sort person = new PersonSorter();
 
     public static void run() {
         while (isRunning) {
@@ -28,17 +30,13 @@ public class UserHandler {
                     4 - Выйти из приложения""");
             String choice = sc.nextLine();
             switch (choice) {
-                case "1" -> {
-                    enterFile();
-                }
+                case "1" -> enterFile();
                 case "2" -> {
                     System.out.println("Введите данные для сортировки: ");
                     String data = sc.nextLine();
                     System.out.println("Вызываем метод валидации данных");
                 }
-                case "3" -> {
-                    checkEnterByUserForRandom();
-                }
+                case "3" -> generateData();
                 case "4" -> {
                     System.out.println("Завершаем программу.");
                     isRunning = false;
@@ -68,14 +66,23 @@ public class UserHandler {
         System.out.println("Вызываем метод валидации данных");
     }
 
-    private static void checkEnterByUserForRandom() {
-        Integer count = person.createAndCountSize();
-        System.out.println("Введите желаемую длину массива от 1 до " + count);
-        String data = sc.nextLine();
+    private static void generateData() {
+        System.out.println("Введите желаемую длину массива.");
+        List<Person> people = new ArrayList<>();
+        String input = sc.nextLine();
+        int size = 0;
         try {
-            person.sortForCount(Integer.parseInt(data));
+            size = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new InvalidException("Не число");
+            System.out.println("Необходимо ввести целое число!");
+            generateData();
+        }
+        if (size == 0) {
+            System.out.println("Массив не может быть пустым!");
+            generateData();
+        } else {
+            Sort person = new PersonSorter();
+            System.out.println(person.createBySize(size) + "\nВызов сортировки");
         }
     }
 }

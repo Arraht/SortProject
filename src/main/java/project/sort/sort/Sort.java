@@ -1,9 +1,12 @@
 package project.sort.sort;
 
+import project.sort.person.Person;
+
+import java.util.ArrayList;
+
 public interface Sort {
-    void sortAl();
 
     void sortForCount(int count);
 
-    Integer createAndCountSize();
+    ArrayList<Person> createBySize(int size);
 }
