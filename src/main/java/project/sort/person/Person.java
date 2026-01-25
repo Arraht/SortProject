@@ -1,6 +1,7 @@
 package project.sort.person;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Person {
     private String name;
     private String password;
@@ -27,6 +29,6 @@ public class Person {
     }
 
     public String toString() {
-        return "name: " +  this.name + "; password: " + this.password + "; mail: " + this.mail;
+        return "\nname: " +  this.name + "; password: " + this.password + "; mail: " + this.mail;
     }
 }
