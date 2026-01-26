@@ -63,22 +63,18 @@ public class UserHandler {
             System.out.print("Введите имя: ");
             String name = sc.nextLine();
             if (!nameValidator.validate(name)) {
-                System.out.println("Имя должно содержать больше 2 символов и состоять из русских или английский букв.");
                 i--;
                 continue;
             }
             System.out.print("Введите почту: ");
             String email = sc.nextLine();
             if (!emailValidator.validate(email)) {
-                System.out.println("Проверьте правильность написания почты.");
                 i--;
                 continue;
             }
             System.out.print("Введите пароль: ");
             String password = sc.nextLine();
             if (!passwordValidator.validate(password)) {
-                System.out.println("Пароль должен состоять минимум из 8ми символов, " +
-                        "включать хотя бы одну маленькую и одну большую английскую букву.");
                 i--;
                 continue;
             }
