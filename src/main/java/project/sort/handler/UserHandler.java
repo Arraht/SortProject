@@ -5,6 +5,10 @@ import project.sort.person.PersonSorter;
 import project.sort.exceptoins.FileNotFoundException;
 import project.sort.exceptoins.InvalidException;
 import project.sort.sort.Sort;
+import project.sort.validator.EmailValidator;
+import project.sort.validator.NameValidator;
+import project.sort.validator.PasswordValidator;
+import project.sort.validator.Validator;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +22,10 @@ import java.util.Scanner;
 public class UserHandler {
     private static boolean isRunning = true;
     private static final Scanner sc = new Scanner(System.in);
+    private static final Validator nameValidator = new NameValidator();
+    private static final Validator emailValidator = new EmailValidator();
+    private static final Validator passwordValidator = new PasswordValidator();
+    private static final List<Person> people = new ArrayList<>();
 
     public static void run() {
         while (isRunning) {
@@ -31,11 +39,7 @@ public class UserHandler {
             String choice = sc.nextLine();
             switch (choice) {
                 case "1" -> enterFile();
-                case "2" -> {
-                    System.out.println("Введите данные для сортировки: ");
-                    String data = sc.nextLine();
-                    System.out.println("Вызываем метод валидации данных");
-                }
+                case "2" -> manualInput();
                 case "3" -> generateData();
                 case "4" -> {
                     System.out.println("Завершаем программу.");
@@ -45,6 +49,44 @@ public class UserHandler {
             }
             System.out.println();
         }
+    }
+
+    private static void manualInput() {
+        System.out.println("Сколько людей вы хотите добавить?");
+        String data = sc.nextLine();
+        if (isNotInt(data) || isZero(Integer.parseInt(data))) {
+            manualInput();
+            return;
+        }
+        int size = Integer.parseInt(data);
+        for (int i = 0; i < size; i++) {
+            System.out.print("Введите имя: ");
+            String name = sc.nextLine();
+            if (!nameValidator.validate(name)) {
+                i--;
+                continue;
+            }
+            System.out.print("Введите почту: ");
+            String email = sc.nextLine();
+            if (!emailValidator.validate(email)) {
+                i--;
+                continue;
+            }
+            System.out.print("Введите пароль: ");
+            String password = sc.nextLine();
+            if (!passwordValidator.validate(password)) {
+                i--;
+                continue;
+            }
+            people.add(Person.builder()
+                    .name(name)
+                    .password(password)
+                    .mail(email)
+                    .build());
+            System.out.println("Пользователь успешно сохранён!");
+            System.out.println(people);
+        }
+
     }
 
     private static String checkPath(String input) {
@@ -67,22 +109,37 @@ public class UserHandler {
     }
 
     private static void generateData() {
-        System.out.println("Введите желаемую длину массива.");
-        List<Person> people = new ArrayList<>();
+        System.out.println("Сколько людей вы хотите добавить?");
         String input = sc.nextLine();
-        int size = 0;
-        try {
-            size = Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            System.out.println("Необходимо ввести целое число!");
+        if (isNotInt(input)) {
             generateData();
+            return;
         }
-        if (size == 0) {
-            System.out.println("Массив не может быть пустым!");
+        int size = Integer.parseInt(input);
+        if (isZero(size)) {
             generateData();
         } else {
             Sort person = new PersonSorter();
             System.out.println(person.createBySize(size) + "\nВызов сортировки");
+        }
+    }
+
+    private static boolean isNotInt(String input) {
+        try {
+            Integer.parseInt(input);
+            return false;
+        } catch (NumberFormatException e) {
+            System.out.println("Необходимо ввести целое число!");
+            return true;
+        }
+    }
+
+    private static boolean isZero(Integer number) {
+        if (number.equals(0)) {
+            System.out.println("Число не может быть нулём.");
+            return true;
+        } else {
+            return false;
         }
     }
 }
