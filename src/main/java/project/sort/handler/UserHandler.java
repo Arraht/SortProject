@@ -1,9 +1,10 @@
 package project.sort.handler;
 
-import project.sort.handler.util.Action;
+import lombok.experimental.UtilityClass;
 
 import java.util.Scanner;
 
+@UtilityClass
 public class UserHandler {
     private static boolean isRunning = true;
     private static final Scanner sc = new Scanner(System.in);
