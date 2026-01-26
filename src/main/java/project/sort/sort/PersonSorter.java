@@ -1,7 +1,8 @@
-package project.sort.person;
+package project.sort.sort;
 
 import net.datafaker.Faker;
-import project.sort.sort.Sort;
+import project.sort.person.Person;
+import project.sort.person.PersonComparator;
 
 import java.util.ArrayList;
 import java.util.List;

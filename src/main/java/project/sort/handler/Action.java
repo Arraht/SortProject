@@ -3,7 +3,7 @@ package project.sort.handler;
 import lombok.experimental.UtilityClass;
 import project.sort.files.FilePath;
 import project.sort.person.Person;
-import project.sort.person.PersonSorter;
+import project.sort.sort.PersonSorter;
 import project.sort.sort.Sort;
 
 import java.util.ArrayList;
