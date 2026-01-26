@@ -25,7 +25,6 @@ public class Check {
     private static final Validator passwordValidator = new PasswordValidator();
 
     public static void validateManualEntry(String data, Scanner sc, List<Person> people) {
-        Map<Integer, String> map = new HashMap<>();
         for (int i = 0; i < Integer.parseInt(data); i++) {
             System.out.print("Введите имя: ");
             String name = sc.nextLine();
