@@ -1,4 +1,4 @@
-package project.sort.handler.util;
+package project.sort.handler;
 
 import lombok.experimental.UtilityClass;
 import project.sort.person.Person;
@@ -15,14 +15,13 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
-
 @UtilityClass
-public class Check {
+class Check {
     private static final Validator nameValidator = new NameValidator();
     private static final Validator emailValidator = new EmailValidator();
     private static final Validator passwordValidator = new PasswordValidator();
 
-    public static void validateManualEntry(String data, Scanner sc, List<Person> people) {
+    public void validateManualEntry(String data, Scanner sc, List<Person> people) {
         for (int i = 0; i < Integer.parseInt(data); i++) {
             System.out.print("Введите имя: ");
             String name = sc.nextLine();
@@ -51,7 +50,7 @@ public class Check {
         }
     }
 
-    public static String checkPath(String input) {
+    public String checkPath(String input) {
         try {
             Path path = Paths.get(input);
             return Files.readString(path);
@@ -64,7 +63,7 @@ public class Check {
         }
     }
 
-    public static boolean checkIsZeroOrIsNotInt(String input) {
+    public boolean checkIsZeroOrIsNotInt(String input) {
         try {
             Integer number = Integer.parseInt(input);
             if (number.equals(0)) {
