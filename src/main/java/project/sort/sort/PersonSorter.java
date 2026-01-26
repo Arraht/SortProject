@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class PersonSorter implements Sort {
-
-
     @Override
     public List<Person> sort(List<Person> people) {
         PersonComparator personComparator = new PersonComparator();
