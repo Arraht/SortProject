@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,8 +21,10 @@ class Check {
     private static final Validator nameValidator = new NameValidator();
     private static final Validator emailValidator = new EmailValidator();
     private static final Validator passwordValidator = new PasswordValidator();
+    private static final List<String> invalidLines = new ArrayList<>();
+    private static final List<Person> validPersons = new ArrayList<>();
 
-    public void validateManualEntry(String data, Scanner sc, List<Person> people) {
+    public static void validateManualEntry(String data, Scanner sc, List<Person> people) {
         for (int i = 0; i < Integer.parseInt(data); i++) {
             System.out.print("Введите имя: ");
             String name = sc.nextLine();
@@ -50,7 +53,7 @@ class Check {
         }
     }
 
-    public String checkPath(String input) {
+    public static String checkPath(String input) {
         try {
             Path path = Paths.get(input);
             return Files.readString(path);
@@ -63,11 +66,11 @@ class Check {
         }
     }
 
-    public boolean checkIsZeroOrIsNotInt(String input) {
+    public static boolean checkIsPositiveAndIsInt(String input) {
         try {
-            Integer number = Integer.parseInt(input);
-            if (number.equals(0)) {
-                System.out.println("Число не может быть нулём.");
+            int number = Integer.parseInt(input);
+            if (number < 1) {
+                System.out.println("Число должно быть больше 0");
                 return true;
             } else {
                 return false;
@@ -76,5 +79,50 @@ class Check {
             System.out.println("Необходимо ввести целое число!");
             return true;
         }
+    }
+
+    public static void processLine(String line, int lineNumber) {
+        if (line.trim().isEmpty()) {
+            invalidLines.add("Строка " + lineNumber + " пустая.");
+            return;
+        }
+
+        String[] parts = line.split(",", 3);
+
+        if (parts.length < 3) {
+            invalidLines.add("Строка №" + lineNumber + ": '" + line +
+                    "' - недостаточно данных (нужно 3 поля)");
+            return;
+        }
+
+        String name = parts[0].trim();
+        String email = parts[1].trim();
+        String password = parts[2].trim();
+
+        if (nameValidator.validate(name) && emailValidator.validate(email) && passwordValidator.validate(password)) {
+            validPersons.add(Person.builder()
+                    .name(name)
+                    .mail(email)
+                    .password(password)
+                    .build());
+        } else {
+            invalidLines.add("Строка №" + lineNumber + ": '" + line + "'");
+        }
+    }
+
+    public List<Person> getValidPersons() {
+        return new ArrayList<>(validPersons);
+    }
+
+    public List<String> getInvalidLines() {
+        return new ArrayList<>(invalidLines);
+    }
+
+    public void clearValidPersons() {
+        validPersons.clear();
+    }
+
+    public void clearInvalidLines() {
+        invalidLines.clear();
     }
 }
