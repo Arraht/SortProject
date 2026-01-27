@@ -1,1 +1,8 @@
-данные пользователя для заполнения массива
+Михаил, gjfjd@mail.ru, Jfkdjsl1234
+Ольга, olga@ya.ru, gjfAS2314f
+Сергей, hfsdk@gmail.com, fjdEF12345
+Мария, mariagmail.com, WrongEmail123
+Алексей,alex@mail.com,Pass1
+John Doe, john@example.com, J0hn!Secure
+Иван Иванов, ivan@mail.ru, Password123!
+Я, dmitry@mail.ru, Short
