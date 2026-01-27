@@ -29,6 +29,6 @@ public class Person {
     }
 
     public String toString() {
-        return String.format("name: " +  this.name + ", mail: " + this.mail+ ", password: " + this.password + ".");
+        return String.format("name: %s, mail: %s, password: %s", this.name, this.mail, this.password);
     }
 }

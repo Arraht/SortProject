@@ -29,7 +29,7 @@ class Action {
         }
         Check.validateManualEntry(data, sc, people);
         person.sort(people);
-        System.out.println(people);
+        people.forEach(System.out::println);
         people.clear();
     }
 
